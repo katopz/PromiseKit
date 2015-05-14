@@ -38,7 +38,8 @@ PromiseKit 2.0 has two promise types:
  
 Each is designed to be an approproate promise implementation for the strong points of its language.
 
-`Promise<T>` is strict, defined and precise. `AnyPromise` is loose, flexible and dynamic.
+* `Promise<T>` is strict, defined and precise.
+* `AnyPromise` is loose, flexible and dynamic.
 
 `AnyPromise` behaves like PromiseKit 1’s Objective-C promise implementation (`PMKPromise`):
 
