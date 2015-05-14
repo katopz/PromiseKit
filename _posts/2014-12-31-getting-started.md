@@ -79,49 +79,46 @@ import PromiseKit
 PromiseKit is modulized; if you only want `PMKPromise` and none of our category additions:
 
 {% highlight ruby %}
-pod 'PromiseKit/Promise'
+pod 'PromiseKit/CorePromise'
 {% endhighlight %}
 
 Or if you only want some of our categories:
 
 {% highlight ruby %}
-pod 'PromiseKit/NSURLConnection'
-pod 'PromiseKit/UIActionSheet'
-pod 'PromiseKit/UIAlertView'
-# et cetera
+pod 'PromiseKit/AVFoundation'
+pod 'PromiseKit/Accounts'
+pod 'PromiseKit/AddressBook'
+pod 'PromiseKit/AssetsLibrary'
+pod 'PromiseKit/CloudKit'
+pod 'PromiseKit/CoreLocation'
+pod 'PromiseKit/Foundation'
+pod 'PromiseKit/MapKit'
+pod 'PromiseKit/MessagesUI'
+pod 'PromiseKit/Photos'
+pod 'PromiseKit/QuartzCore'
+pod 'PromiseKit/Social'
+pod 'PromiseKit/StoreKit'
+pod 'PromiseKit/SystemConfiguration'
+pod 'PromiseKit/UIKit'
 {% endhighlight %}
-
-There is a CocoaPods subspec for every category and an umbrella subspec for every framework (eg. `Promisekit/Foundation`, `Promisekit/UIKit`, etc.). If you don’t want to think about it then choose `pod 'PromiseKit'` or `pod 'PromiseKit/all'`; `all` is *everything*. 
-
-The Swift version is now modularized also:
-
-{% highlight ruby %}
-pod 'PromiseKit/Swift/Promise'
-#…
-pod 'PromiseKit/Swift/UIKit'
-pod 'PromiseKit/Swift/MapKit'
-# et cetera
-{% endhighlight %}
-
 
 <aside>
-Asking for just the <code>PromiseKit</code> pod gives you the 80% most people want, ie. <code>PMKPromise</code>, the <code>NSURLConnection</code> & <code>NSNotifcationCenter</code> category additions and the <code>UIKit</code> category additions.
+Asking for just the *PromiseKit* pod gives you the 80% most people want: <code>Promise<T></code>, <code>AnyPromise</code>, the *Foundation* additions and the *UIKit* additions.
 </aside>
 
 
 # Integrating With Carthage
 
-Carthage is less imposing than CocoaPods. In your `Cartfile`:
+In your `Cartfile`:
 
 {% highlight ruby %}
 github "mxcl/PromiseKit"
 {% endhighlight %}
 
-Note that *currently* only the Swift version will be built with Carthage.
 
 # Integrating By Hand
 
-If you don’t want to use CocoaPods you can use [CocoaPods Packager](https://github.com/CocoaPods/cocoapods-packager) to generate a static version of PromiseKit and just embed that.
+Clone PromiseKit and add the xcodeproj to your project. This will build PromiseKit into a framework you can link in your project.
 
 
 # Requirements & Dependencies
