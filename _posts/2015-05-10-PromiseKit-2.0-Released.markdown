@@ -358,6 +358,8 @@ When porting from PromiseKit 1.x to 2.x, your code will probably compile as befo
 
 In a few months we will delete the Swift portion of PromiseKit 1.x (CocoaPods will still find it if you depend on PromiseKit 1.x). It was never officially endorsed, and 2.x is better inevery way.
 
+**If when porting from 1 to 2 you believe something no longer works, but it *should*, please, open a ticket. We believe in as much source compatability between major releases as possible**.
+
 
 # The Future
 
