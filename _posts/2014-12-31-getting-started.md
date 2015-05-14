@@ -103,7 +103,7 @@ pod 'PromiseKit/UIKit'
 {% endhighlight %}
 
 <aside>
-Asking for just the *PromiseKit* pod gives you the 80% most people want: <code>Promise&lt;T&gt;</code>, <code>AnyPromise</code>, the *Foundation* additions and the *UIKit* additions.
+Asking for just the <i>PromiseKit</i> pod gives you the 80% most people want: <code>Promise&lt;T&gt;</code>, <code>AnyPromise</code>, the <i>Foundation</i> additions and the <i>UIKit</i> additions.
 </aside>
 
 
