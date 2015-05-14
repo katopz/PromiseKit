@@ -63,7 +63,7 @@ osascript -e 'tell application "Xcode" to quit' && open *.xcworkspace
 In `.m` files you want to use promises:
 
 {% highlight objectivec %}
-#import <PromiseKit.h>
+#import <PromiseKit/PromiseKit.h>
 {% endhighlight %}
 
 In `.swift` files:
