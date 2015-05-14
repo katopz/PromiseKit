@@ -256,6 +256,17 @@ firstly {
 }
 {% endhighlight %}
 
+Versus:
+
+{% highlight swift %}
+CLLocationManger.promise().then {
+    UIView.animate { foo.alpha = 1 }
+}.then {
+    NSURLConnection.POST(url)
+}
+{% endhighlight %}
+
+
 ## 100% Test Coverage
 
 PromiseKit 1.x was well tested, and includes a port of the entire Promises/A+ testsuite. PromiseKit 2.x has tests wherever possible, including testing categories that typically involve user interaction.
