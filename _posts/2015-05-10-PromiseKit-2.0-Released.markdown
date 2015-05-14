@@ -219,9 +219,9 @@ Please note, there are <a href="http://blog.izs.me/post/59142742143/designing-ap
 Normally a `then` can be dispatched to the queue of your choice:
 
 {% highlight swift %}
-let bgq = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
 
-NSURLConnection.GET(url).then(on: bgq) {
+NSURLConnection.GET(url).then(on: queue) {
     // we’re on the queue we asked for
 }
 {% endhighlight %}
