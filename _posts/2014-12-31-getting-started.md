@@ -76,7 +76,7 @@ import PromiseKit
 
 # Advanced CocoaPods
 
-PromiseKit is modulized; if you only want `PMKPromise` and none of our category additions:
+PromiseKit is modulized; if you only want our promise classes and none of our category additions:
 
 {% highlight ruby %}
 pod 'PromiseKit/CorePromise'
