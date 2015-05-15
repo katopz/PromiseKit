@@ -94,7 +94,7 @@ Pod::Spec.new do |s|
     # Don’t depend on the whole of PromiseKit! Just the core parts.
     ss.dependency 'PromiseKit/CorePromise', '~> 2.0'
 
-    ss.dependency 'ABCKitten/CorePromise'
+    ss.dependency 'ABCKitten/CoreKitten'
     ss.source_files = 'ABCKitten+AnyPromise.{m,h}'
   end
 end
