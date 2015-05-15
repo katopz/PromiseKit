@@ -118,7 +118,15 @@ github "mxcl/PromiseKit"
 
 # Integrating By Hand
 
-Clone PromiseKit and add the xcodeproj to your project. This will build PromiseKit into a framework you can link in your project.
+Either:
+
+* Clone PromiseKit and add the xcodeproj to your project. This will build PromiseKit into a framework you can link in your project.
+
+Or:
+
+* Use our [iOS 7 EZ-Bake](https://github.com/PromiseKit/EZiOS7)
+
+It is not recommended to add the sources directly to your application target; it will work, you'll just have to do a bunch of hacks.
 
 
 # Requirements & Dependencies
