@@ -133,7 +133,7 @@ It is not recommended to add the sources directly to your application target; it
 
 Because of iOS 8 frameworks, you cannot install PromiseKit 2 with CocoaPods *or* Carthage. Thus to install on iOS 7 you must:
 
- 1. pod "PromiseKit", "~> 1.5"
+ 1. `pod "PromiseKit", "~> 1.5"`
  2. Use our [iOS 7 EZ-Bake](https://github.com/PromiseKit/EZiOS7)
 
 Sorry, but it cannot be helped.
