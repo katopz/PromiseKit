@@ -80,16 +80,20 @@ Pod::Spec.new do |s|
   s.name         = "ABCKitten"
   s.version      = "1.1"
 
-  s.default_subspec = 'base'  # ensures that the PromiseKit additions are opt-in
+  # This bit is important, it makes it so the default pod incantation doesn’t
+  # force a PromiseKit dependency.
+  s.default_subspec = 'CoreKitten'
 
-  s.subspec 'base' do |ss|
+  s.subspec 'CoreKitten' do |ss|
     ss.source_files = 'ABCKitten.{m,h}'
   end
 
   s.subspec 'PromiseKit' do |ss|
-    ss.dependency 'PromiseKit/Promise', '~> 1.5'
-    ss.dependency 'ABCKitten/base'
-    ss.source_files = 'ABCKitten+PromiseKit.{m,h}'
+    # Don’t depend on the whole of PromiseKit! Just the core parts.
+    ss.dependency 'PromiseKit/CorePromise', '~> 2.0'
+
+    ss.dependency 'ABCKitten/CorePromise'
+    ss.source_files = 'ABCKitten+AnyPromise.{m,h}'
   end
 end
 {% endhighlight %}
