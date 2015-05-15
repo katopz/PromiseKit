@@ -53,7 +53,9 @@ Opt-in PromiseKit support would include a new file `ABCKitten+AnyPromise.h`:
 @end
 {% endhighlight %}
 
-It's crucially important to document your Promise methods [properly](http://nshipster.com/documentation/), because subsequent `then`s are not strongly typed, thus the only clue the user has is how you named your method and the documentation they can get when **⌥** clicking that method.
+It's crucially important to document your `AnyPromise` methods [properly](http://nshipster.com/documentation/), because subsequent `then`s are not strongly typed, thus the only clue the user has is how you named your method and the documentation they can get when **⌥** clicking that method.
+
+Obviously, Swift promises are strongly typed, but still documentation is a good thing!
 
 Consumers of your library would then include in their `Podfile`:
 
