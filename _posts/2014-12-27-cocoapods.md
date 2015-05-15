@@ -24,7 +24,7 @@ Or see if there’s anything that uses PromiseKit on CocoaPods that you could us
 
 # How To Add Promises to Third Party Libraries
 
-It would be great if every library with asynchronous functionality would offer opt-in `PMKPromise *` variants for the asynchronous mechanisms.
+It would be great if every library with asynchronous functionality would offer opt-in promises for the asynchronous mechanisms.
 
 Should you want to add PromiseKit integration to your library, the general premise is to add an opt-in `subspec` to your `podspec` that provides methods that return `Promise`s. For example if we imagine a library that overlays a kitten on an image:
 
@@ -48,7 +48,7 @@ Opt-in PromiseKit support would include a new file `ABCKitten+PromiseKit.h`:
  * Returns a Promise that overlays a kitten image.
  * @return A Promise that will `then` a `UIImage *` object.
  */
-- (PMKPromise *)overlayKitten;
+- (AnyPromise *)overlayKitten;
 
 @end
 {% endhighlight %}
