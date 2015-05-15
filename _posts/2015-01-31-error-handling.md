@@ -60,4 +60,4 @@ PromiseKit has an additional bonus: unhandled errors (ie. errors that never get 
 
 <div><a class="pagination" href="/when">Next: `when`</a></div>
 
-[ueh]: https://github.com/mxcl/PromiseKit/blob/master/objc/PromiseKit/Promise.h#L140-L146
+[ueh]: https://github.com/mxcl/PromiseKit/blob/master/Sources/ErrorUnhandler.swift#L20
