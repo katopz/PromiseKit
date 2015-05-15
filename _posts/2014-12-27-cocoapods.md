@@ -105,9 +105,10 @@ end
 
 Firstly you should try submitting the above to the project itself. If they won’t add it then you'll need to make your own pod. Use the naming scheme: `ABCKitten+PromiseKit`. Don’t name it with `PromiseKit` first (it’s not PromiseKit plus foo it’s foo plus PromiseKit!). Also use a `+`: there’s enough dashes in project names already. `+` is more descriptive, it’s more distinctive and CocoaPods accepts such names *just fine*.
 
-<div><a class="pagination" href="/troubleshooting">Next: Troubleshooting</a></div>
-
 
 # `Promise<T>` or `AnyPromise`?
 
 If your library is Swift, provide `Promise<T>` and if your library is ObjC, provide `AnyPromise`. We don’t suggest providing both. PromiseKit itself provides bridging mechanisms, support the language you like.
+
+
+<div><a class="pagination" href="/troubleshooting">Next: Troubleshooting</a></div>
