@@ -118,7 +118,7 @@ class MyObject {
 }
 {% endhighlight %}
 
-Please note, that it is essential that you `#import <PromiseKit/PromiseKit.h>` before you import the generated `YourProject-Swift.h` header in your Objective-C `.m` files. This is because of how we have declared our type `AnyPromise` to maintain backwards compatability. Sorry about this, but we have to balance many different conveinence considerations.
+Please note, that it is essential that you `#import <PromiseKit/PromiseKit.h>` before you import the generated `YourProject-Swift.h` header in your Objective-C `.m` files. This is because of how we have declared our type `AnyPromise` to maintain backwards compatability. Sorry about this, but we have to balance many different convenience considerations.
     
 ## Cancellation
 
