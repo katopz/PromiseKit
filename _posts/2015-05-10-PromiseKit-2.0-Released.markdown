@@ -309,7 +309,7 @@ The Swift compiler will often error with `then`. To figure out the issue, first
 try specifying the full signature for your closures:
 
 {% highlight swift %}
-foo.then {
+foo.then { x in
     doh()
     return bar()
 }
@@ -322,14 +322,13 @@ foo.then { obj -> Promise<Type> in
 }
 
 // Because the Swift compiler cannot infer closure types very
-// well yet, one-line closures almost always
-// compile without explicitness. I’m not a fan of this, as it makes
-// using promises in Swift ugly, but I hope that
-// Apple intend to improve the detection of closure types to
-// make using promises in Swift as delightful as in Objective-C.
+// well yet. We hope this will be fixed.
+
+// Watch out for  one-line closures though! Swift will
+// automatically infer the types, which may confuse you:
 
 foo.then {
-    return bar()
+    return bar()  // 👌
 }
 {% endhighlight %}
 
