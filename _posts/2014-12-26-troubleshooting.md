@@ -65,4 +65,39 @@ You need to change the return type of your block. Clang is smart, but only so fa
 
 You see the `id` after the `^` and before the `{`? That’s the fix.
 
+
+## 4. Chaining Doesn’t Seem To Work
+
+{% highlight objectivec %}
+foo.then(^{
+    [self promise];
+}).then(^{
+    NSLog(@"Happens immediately! WTF?!");
+});
+{% endhighlight %}
+
+This happens because you didn’t *return* the promise. We can’t know you mean to
+wait on the promise before executing the next `then`.
+
+{% highlight objectivec %}
+foo.then(^{
+    return [self promise];
+}).then(^{
+    NSLog(@"Happens once [self promise] finishes :)");
+});
+{% endhighlight %}
+
+With Swift especially there seems to be a compiler bug where this is possible:
+
+{% highlight swift %}
+foo.then { _ -> Void in
+    return promise()
+}.then { _ in
+    NSLog("Happens immediately! But why?!")
+}
+{% endhighlight %}
+
+We return the promise *but*! The closure has been specified as `Void` return type. Swift seems to respect the `Void` return rather than have a compile error, meaning the promise is not inserted into the chain.
+
+
 <div><a class="pagination" href="/common-misusage">Next: Common Misusage</a></div>
