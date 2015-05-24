@@ -359,9 +359,15 @@ When porting from PromiseKit 1.x to 2.x, your code will probably compile as befo
 * PromiseKit 2 is mostly written in Swift. This means you will have to check the relevant project settings to embed a Swift framework.
 * `promiseViewController` with a `UIImagePickerController` no longer provides the original media data for its second parameter. Sorry but to do this imposed AssetsLibrary linkage on all PromiseKit consumers. The Swift categories still provide this option, since with Swift we can descern what you want precisely, so it can be provided in a separate file. If you depended on this feature you can still get the original data, just grab the code from PromiseKit 1.x’s sources.
 
-In a few months we will delete the Swift portion of PromiseKit 1.x (CocoaPods will still find it if you depend on PromiseKit 1.x). It was never officially endorsed, and 2.x is better inevery way.
+In a few months we will delete the Swift portion of PromiseKit 1.x (CocoaPods will still find it if you depend on PromiseKit 1.x). It was never officially endorsed, and 2.x is better in every way.
 
 **If when porting from 1 to 2 you believe something no longer works, but it *should*, please, open a ticket. We believe in as much source compatability between major releases as possible**.
+
+Porting should be straight forward, but please be aware of the above, especially for any promises with changed then signatures for Objective-C promises (the only signatures that were intentially changed were `join` and promiseViewController for `UIImagePickerController`, so if you find a signature that is different otherwise, it is a bug, please report it).
+
+Cancellation *should* work for you as before, but it depends on how you were handling the cancellation in your codebase, so be careful.
+
+When in doubt, don’t upgrade major versions of third party libraries for production applications! We tried very hard to respect your commitment to PromiseKit, but it is not worth the risk unless you do thorough Q&A.
 
 
 # The Future
