@@ -10,7 +10,7 @@ import Foundation.NSError
  promise, et cetera.
 
  Promises start in a pending state and *resolve* with a value to become
- *fulfilled* or with an `NSError` to become rejected.
+ *fulfilled* or with an `ErrorType` to become rejected.
 
  - SeeAlso: [PromiseKit `then` Guide](http://promisekit.org/then/)
  - SeeAlso: [PromiseKit Chaining Guide](http://promisekit.org/chaining/)
@@ -33,7 +33,11 @@ public class Promise<T> {
              return Promise { fulfill, reject in
                  KittenFetcher.fetchWithCompletionBlock({ img, err in
                      if err == nil {
-                         fulfill(img)
+                         if img.size.width > 0 {
+                             fulfill(img)
+                         } else {
+                             reject(Error.ImageTooSmall)
+                         }
                      } else {
                          reject(err)
                      }
@@ -53,7 +57,7 @@ public class Promise<T> {
      - SeeAlso: http://promisekit.org/sealing-your-own-promises/
      - SeeAlso: http://promisekit.org/wrapping-delegation/
     */
-    public convenience init(@noescape resolvers: (fulfill: (T) -> Void, reject: (NSError) -> Void) throws -> Void) {
+    public convenience init(@noescape resolvers: (fulfill: (T) -> Void, reject: (ErrorType) -> Void) throws -> Void) {
         self.init(sealant: { sealant in
             try resolvers(fulfill: sealant.resolve, reject: sealant.resolve)
         })
@@ -80,7 +84,7 @@ public class Promise<T> {
         do {
             try sealant(Sealant(body: resolve))
         } catch let error {
-            resolve(.Rejected(error as NSError))
+            resolve(.Rejected(error))
         }
     }
 
@@ -94,7 +98,7 @@ public class Promise<T> {
     /**
      Create a new rejected promise.
     */
-    public init(_ error: NSError) {
+    public init(_ error: ErrorType) {
         unconsume(error)
         state = SealedState(resolution: .Rejected(error))
     }
@@ -107,7 +111,12 @@ public class Promise<T> {
     init(passthru: ((Resolution<T>) -> Void) -> Void) {
         var resolve: ((Resolution<T>) -> Void)!
         state = UnsealedState(resolver: &resolve)
-        passthru(resolve)
+        passthru {
+            if case .Rejected(let error) = $0 {
+                unconsume(error)
+            }
+            resolve($0)
+        }
     }
 
     /**
@@ -130,7 +139,7 @@ public class Promise<T> {
        2) A function that fulfills that promise
        3) A function that rejects that promise
     */
-    public class func pendingPromise() -> (promise: Promise, fulfill: (T) -> Void, reject: (NSError) -> Void) {
+    public class func pendingPromise() -> (promise: Promise, fulfill: (T) -> Void, reject: (ErrorType) -> Void) {
         var sealant: Sealant<T>!
         let promise = Promise { sealant = $0 }
         return (promise, sealant.resolve, sealant.resolve)
@@ -179,7 +188,7 @@ public class Promise<T> {
                     do {
                         resolve(.Fulfilled(try body(value)))
                     } catch {
-                        resolve(.Rejected(error as NSError))
+                        resolve(.Rejected(error))
                     }
                 }
             }
@@ -212,7 +221,7 @@ public class Promise<T> {
                     do {
                         try body(value).pipe(resolve)
                     } catch {
-                        resolve(.Rejected(error as NSError))
+                        resolve(.Rejected(error))
                     }
                 }
             }
@@ -255,7 +264,7 @@ public class Promise<T> {
                             }
                         }
                     } catch {
-                        resolve(.Rejected(error as NSError))
+                        resolve(.Rejected(error))
                     }
                 }
             }
@@ -298,7 +307,7 @@ public class Promise<T> {
      - Parameter body: The handler to execute if this promise is rejected.
      - SeeAlso: `registerCancellationError`
     */
-    public func rescue(policy policy: RescuePolicy = .AllErrorsExceptCancellation, _ body: (NSError) -> Void) -> RejectedPromise {
+    public func rescue(policy policy: RescuePolicy = .AllErrorsExceptCancellation, _ body: (ErrorType) -> Void) -> RejectedPromise {
         var resolve: ((Resolution<Void>) -> Void)!
         let rp = RejectedPromise(resolve: &resolve)
 
@@ -319,7 +328,7 @@ public class Promise<T> {
      The provided closure is executed when this promise is rejected giving you
      an opportunity to recover from the error and continue the promise chain.
     */
-    public func recover(on q: dispatch_queue_t = dispatch_get_main_queue(), _ body: (NSError) -> Promise<T>) -> Promise<T> {
+    public func recover(on q: dispatch_queue_t = dispatch_get_main_queue(), _ body: (ErrorType) -> Promise<T>) -> Promise<T> {
         return Promise(when: self) { resolution, resolve in
             switch resolution {
             case .Rejected(let error):
@@ -333,7 +342,7 @@ public class Promise<T> {
         }
     }
 
-    public func recover(on q: dispatch_queue_t = dispatch_get_main_queue(), _ body: (NSError) throws -> T) -> Promise<T> {
+    public func recover(on q: dispatch_queue_t = dispatch_get_main_queue(), _ body: (ErrorType) throws -> T) -> Promise<T> {
         return Promise(when: self) { resolution, resolve in
             switch resolution {
             case .Rejected(let error):
@@ -342,7 +351,7 @@ public class Promise<T> {
                         consume(error)
                         resolve(.Fulfilled(try body(error)))
                     } catch {
-                        resolve(.Rejected(error as NSError))
+                        resolve(.Rejected(error))
                     }
                 }
             case .Fulfilled:
@@ -506,7 +515,7 @@ public func firstly<T>(promise: () throws -> Promise<T>) -> Promise<T> {
     do {
         return try promise()
     } catch {
-        return Promise(error as NSError)
+        return Promise(error)
     }
 }
 
