@@ -278,15 +278,21 @@ public class Promise<T> {
 
      @see registerCancellationError
     */
-    public func rescue(policy policy: RescuePolicy = .AllErrorsExceptCancellation, _ body: (NSError) -> Void) {
+    public func rescue(policy policy: RescuePolicy = .AllErrorsExceptCancellation, _ body: (NSError) -> Void) -> RejectedPromise {
+        var resolve: ((Resolution<Void>) -> Void)!
+        let rp = RejectedPromise(resolve: &resolve)
+
         pipe { resolution in
             dispatch_async(dispatch_get_main_queue()) {
                 if case .Rejected(let error) = resolution where policy == .AllErrors || !error.cancelled {
                     consume(error)
                     body(error)
                 }
+                resolve(.Fulfilled())
             }
         }
+
+        return rp
     }
 
     /**
@@ -481,5 +487,25 @@ public func firstly<T>(promise: () throws -> Promise<T>) -> Promise<T> {
         return try promise()
     } catch {
         return Promise(error as NSError)
+    }
+}
+
+
+public class RejectedPromise {
+    private let state: State<Void>
+
+    private init(inout resolve: ((Resolution<Void>) -> Void)!) {
+        state = UnsealedState(resolver: &resolve)
+    }
+
+    public func finally(on q: dispatch_queue_t = dispatch_get_main_queue(), body: () -> Void) {
+        state.get { seal in
+            switch seal {
+            case .Resolved:
+                contain_zalgo(q, block: body)
+            case .Pending(let handlers):
+                handlers.append { _ in contain_zalgo(q, block: body) }
+            }
+        }
     }
 }

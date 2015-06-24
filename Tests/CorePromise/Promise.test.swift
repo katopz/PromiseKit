@@ -117,17 +117,19 @@ class TestPromise: XCTestCase {
         }
         waitForExpectationsWithTimeout(10, handler: nil)
     }
-}
 
+    func testRescueFinally() {
+        let ex1 = expectationWithDescription("")
+        let ex2 = expectationWithDescription("")
 
-@objc(PMKPromiseBridgeHelper) class PromiseBridgeHelper: NSObject {
-    override init() {
-        super.init()
-    }
+        Promise(1).then { _ in
+            throw NSError(domain: "a", code: 1, userInfo: nil)
+        }.rescue { _ in
+            ex1.fulfill()
+        }.finally {
+            ex2.fulfill()
+        }
 
-    @objc func bridge1() -> AnyPromise {
-        return AnyPromise(bound: dispatch_promise {
-            return 1
-        })
+        waitForExpectationsWithTimeout(1, handler: nil)
     }
 }
