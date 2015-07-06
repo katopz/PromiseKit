@@ -93,9 +93,8 @@ NSURLConnection.GET("http://placekitten.com/\(width)/\(height)").then { (data: N
 If you have an `AnyPromise` you can use it in a `Promise<T>` chain:
 
 {% highlight swift %}
-import PromiseKit.SystemConfiguration
-
-NSURLConnection.POST(url, multipartFormData: formData).then {
+someSwiftPromise().then { _ -> AnyPromise in
+    // provided by `pod PromiseKit/SystemConfiguration`
     return SCNetworkReachability()
 }.then { (obj: AnyObject?) in
     // AnyPromise always resolves with `AnyObject?`
