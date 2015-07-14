@@ -541,9 +541,6 @@ public class RejectedPromise {
 }
 
 
-public let PMKOperationQueue = NSOperationQueue()
-
-
 public enum RescuePolicy {
     case AllErrors
     case AllErrorsExceptCancellation
