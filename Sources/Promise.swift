@@ -16,7 +16,7 @@ import Foundation.NSError
  - SeeAlso: [PromiseKit Chaining Guide](http://promisekit.org/chaining/)
 */
 public class Promise<T> {
-    let state: State<T>
+    let state: State<Resolution<T>>
 
     /**
      Create a new pending promise.
@@ -335,7 +335,7 @@ public class Promise<T> {
      - SeeAlso: `registerCancellationError`
     */
     public func rescue(policy policy: RescuePolicy = .AllErrorsExceptCancellation, _ body: (ErrorType) -> Void) -> RejectedPromise {
-        var resolve: ((Resolution<Void>) -> Void)!
+        var resolve: (() -> Void)!
         let rp = RejectedPromise(resolve: &resolve)
 
         pipe { resolution in
@@ -344,7 +344,7 @@ public class Promise<T> {
                     consume(error)
                     body(error)
                 }
-                resolve(.Fulfilled())
+                resolve()
             }
         }
 
@@ -524,7 +524,7 @@ public func firstly<T>(promise: () throws -> Promise<T>) -> Promise<T> {
 public class RejectedPromise {
     private let state: State<Void>
 
-    private init(inout resolve: ((Resolution<Void>) -> Void)!) {
+    private init(inout resolve: (() -> Void)!) {
         state = UnsealedState(resolver: &resolve)
     }
 
