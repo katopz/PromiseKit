@@ -1,7 +1,7 @@
 import PromiseKit
 import XCTest
 
-class TestPromise: XCTestCase {
+class PromiseTestCase: XCTestCase {
     override func tearDown() {
         PMKUnhandledErrorHandler = { _ in }
     }
@@ -94,7 +94,7 @@ class TestPromise: XCTestCase {
         }.rescue(policy: .AllErrors) { err -> Void in
             ex.fulfill()
         }
-        
+
         waitForExpectationsWithTimeout(1, handler: nil)
     }
 
